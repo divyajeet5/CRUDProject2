@@ -1,0 +1,49 @@
+{% extends 'clasbv/base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-4">
+    <h4 class="text-center alert alert-info">Add New User</h4>
+    <form action="" method="POST">
+     {% csrf_token %}
+     {{foo.as_p}}
+   <input type="submit" class="btn btn-success" value="Add">
+   </form>
+  </div>
+  <div class="col-sm-7 offset-1">
+      <h4 class="text-center alert alert-info">User Information</h4>
+      {% if user %}
+          <table class="table table-hover table-bordered border-primary">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">E-mail</th>
+                  <th scope="col">Alter</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+               {% for u in user %}
+                <tr>
+                  <th scope="row">{{u.id}}</th>
+                  <td>{{u.username}}</td>
+                  <td>{{u.email}}</td>
+                  <td>
+                      <a href="{% url 'moddat' u.id %}" class="btn btn-outline-warning">Edit</a>
+                      <form action="{% url 'deldat' u.id %}" method="POST" class="d-inline">
+                       <button type="submit" class="btn btn-outline-danger">Delete</button>
+                       {% csrf_token%}
+                      </form>
+                  </td>
+                </tr>
+               {% endfor %}
+              </tbody>
+          </table>
+      {% else %}
+       <h4 class="text-center alert alert-warning">No Records</h4>
+      {% endif %}
+  </div>
+<div>{% include 'clasbv/messages.html' %}
+</div>
+
+</div>
+{% endblock content %}
